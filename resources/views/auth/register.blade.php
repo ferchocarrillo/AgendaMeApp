@@ -3,7 +3,7 @@
 @section('title', 'Registrate')
 
 @section('content')
-<div class="container mt--8 pb-5">
+<div class="container mt-5 pb-5">
     <!-- Table -->
     <div class="row justify-content-center">
       <div class="col-lg-6 col-md-8">

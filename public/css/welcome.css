@@ -114,4 +114,11 @@ position: absolute;
         margin-left: 35%;
 
 }
+.col-md-7{
+
+    margin-top: 8rem !important;
+}
+.dropdown-menu{
+    color: black !important;
+}
 

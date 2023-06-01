@@ -15,15 +15,12 @@
 
 <body class="antialiased">
 
-
     <img src="img\header\fondo.jpg" alt="" class="imagen img1">
-
     <img src="img\header\capa_madera.png" alt="" class="imagen img2">
     <img src="img\header\sillas.png" alt="" class="imagen img3">
     <img src="img\header\logo.png" alt="" class="imagen img4">
     <img src="img\header\arbustos.png" alt="" class="imagen img5">
-
-<h1 class="titule" >Gestor de Citas y Consultas</h1>
+    <h1 class="titule">Gestor de Citas y Consultas</h1>
 
     </div>
     </div>
