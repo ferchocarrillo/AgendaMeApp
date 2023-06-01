@@ -24,8 +24,8 @@
             ->where('created_at', '>=', Carbon::now()->subMonth(1));
     }
 @endphp
-@if ($role == 'admin') {
-<p><span>Citas confirmadas </span>{{ $confirmedAppointments->count() }}</p>
-<p><span>Pendientes de aprobacion </span>{{ $pendingAppointments->count() }}</p>
-<p><span>Canceladas </span>{{ $oldAppointments->count() }}</p>
+@if ($role == 'admin')
+<p><span>Citas confirmadas </span>&nbsp;&nbsp;  {{ $confirmedAppointments->count() }}</p>
+<p><span>Pendientes de aprobacion </span>&nbsp;&nbsp;  {{ $pendingAppointments->count() }}</p>
+<p><span>Canceladas </span>&nbsp;&nbsp;  {{ $oldAppointments->count() }}</p>
 @endif
