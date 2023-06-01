@@ -110,14 +110,13 @@
             <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
                 <div class="container-fluid">
                     @php
-                    $role = auth()->user()->role;
+                        $role = auth()->user()->role;
                     @endphp
                     <!-- Brand -->
-                    @if ($role == 'admin') {
-
-                    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/home">Este mes</a>
-                    @include('layouts.estatics')}
-
+                    @if ($role == 'admin')
+                        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/home">Este
+                            mes</a>
+                        @include('layouts.estatics')
                     @endif
 
 
@@ -151,9 +150,9 @@
             </div>
 
 
-                @yield('content')
-                <!-- Footer -->
-                @include('includes.panel.footer')
+            @yield('content')
+            <!-- Footer -->
+            @include('includes.panel.footer')
 
         </div>
         <!--   Core   -->
