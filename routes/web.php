@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SignaturePadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,13 @@ Route::get(
 )->name('home');
 
 Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get(
+        'appointments/pdf/{id}',
+        [AppointmentController::class, 'pdf']
+    )->name('appointments.pdf');
+
+
     //Rutas spacielties
 
     Route::get(
@@ -97,28 +106,47 @@ Route::middleware(['auth', 'admin'])->group(function () {
             App\Http\Controllers\admin\ChartController::class, 'doctorsJson'
         ]
     );
+
+    //rutas pdf
+
+    Route::get('signature-pad', [SignaturePadController::class, 'index']);
+    Route::post('signature-pad', [SignaturePadController::class, 'save'])->name('signpad.save');
+
+    //Route::get('/tcpdf', [\App\Http\Controllers\TCPDFController::class, 'downloadPdf']);
+
+
 });
 //seccion medicos
-Route::middleware(['auth', 'doctor'])->group(function () {
+Route::middleware([
+    'auth', 'doctor'
+])->group(function () {
 
-        Route::get(
-            '/horario',
-            [
-                App\Http\Controllers\doctor\HorarioController::class, 'edit'
-            ]
-        );
+    Route::get(
+        '/horario',
+        [
+            App\Http\Controllers\doctor\HorarioController::class, 'edit'
+        ]
+    );
 
-        Route::post(
-            '/horario',
-            [
-                App\Http\Controllers\doctor\HorarioController::class, 'store'
-            ]
-        );
-    });
+    Route::post(
+        '/horario',
+        [
+            App\Http\Controllers\doctor\HorarioController::class, 'store'
+        ]
+    );
+});
 
 Route::middleware(
     'auth'
 )->group(function () {
+
+
+    // Route::get(
+    //     '/miscitas/pdf',
+    //     [
+    //         App\Http\Controllers\AppointmentController::class, 'pdf'
+    //     ]
+    // )->name('miscitas.pdf');
     Route::get(
         '/reservarcitas/create',
         [
@@ -143,6 +171,10 @@ Route::middleware(
             App\Http\Controllers\AppointmentController::class, 'show'
         ]
     );
+
+
+
+
     Route::post(
         '/miscitas/{appointment}/cancel',
         [
@@ -161,6 +193,7 @@ Route::middleware(
             App\Http\Controllers\AppointmentController::class, 'formCancel'
         ]
     );
+
     //json
     Route::get(
         '/especialidades/{specialty}/medicos',

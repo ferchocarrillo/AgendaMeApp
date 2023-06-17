@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
-            {{ config( 'app.name')}} | @yield('title')
+            {{ config('app.name') }} | @yield('title')
         </title>
         <!-- Favicon -->
         <link href="{{ asset('img/brand/favicon.png') }}" rel="icon" type="image/png">
@@ -16,6 +16,14 @@
         <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
         <!-- CSS Files -->
         <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+        <style>
+            img {
+
+                position: absolute;
+                width: 5%;
+                height: 10%;
+            }
+        </style>
     </head>
 
     <body class="bg-default">
@@ -23,8 +31,8 @@
             <!-- Navbar -->
             <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
                 <div class="container px-4">
-                    <a class="navbar-brand" href="{{ url('/')}}">
-                        <img src="{{ asset('img/brand/blue.png') }}" />
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="{{ asset('img/brand/blue.png') }}">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,7 +60,7 @@
                         </div>
                         <!-- Navbar items -->
                         <ul class="navbar-nav ml-auto">
-                        {{--<li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link nav-link-icon" href="{{ route('register') }}">
                                     <i class="ni ni-circle-08"></i>
                                     <span class="nav-link-inner--text">Registrate</span>

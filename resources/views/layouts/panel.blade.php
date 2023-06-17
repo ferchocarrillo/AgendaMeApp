@@ -17,6 +17,12 @@
         <!-- CSS Files -->
         <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
         @yield('styles')
+        <style>
+
+            canvas{
+                border: 1px solid black;
+            }
+        </style>
     </head>
 
     <body class="">

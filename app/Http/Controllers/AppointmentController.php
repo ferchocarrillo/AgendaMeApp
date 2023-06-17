@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\HorarioServiceInterface;
 use App\Models\Appointment;
 use App\Models\CancelledAppointment;
+use App\Models\Signature;
 use App\Models\Specialty;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AppointmentController extends Controller
 {
@@ -51,6 +54,26 @@ class AppointmentController extends Controller
             'role'
         ));
     }
+
+
+    public function pdf($id)
+    {
+        $firmas = Signature::leftjoin(
+            'appointments',
+            'appointments.id',
+            '=',
+            'signatures.appointment_id'
+        )
+            ->where('signatures.appointment_id', $id)
+            ->first();
+
+        //dd($firmas);
+
+
+
+        return view('appointments.pdf', compact('firmas'));
+    }
+
 
     public function create(HorarioServiceInterface $horarioServiceInterface)
     {
@@ -191,5 +214,21 @@ class AppointmentController extends Controller
     {
         $role = auth()->user()->role;
         return view('appointments.show', compact('appointment', 'role'));
+    }
+
+    public function createPDF()
+    {
+
+        //$pdf = Signature::findOrFail($appointment->id)->get();
+
+        //dd($pdf);
+        $consentimiento = Signature::all();
+        view()->share('signature', $consentimiento);
+
+        //$doctor = $request->doctor;
+        //$paciente = $request->paciente;
+
+        $pdf = PDF::loadView('appointments.pdf', compact('consentimiento'));
+        return $pdf->stream('appointments.pdf');
     }
 }

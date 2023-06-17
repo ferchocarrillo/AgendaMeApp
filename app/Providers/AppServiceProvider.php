@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('America/Bogota');
 
         Paginator::defaultView('vendor\pagination\bootstrap-4');
+
     }
 }
