@@ -18,7 +18,8 @@ class Appointment extends Model
         'description',
         'doctor_id',
         'patient_id',
-        'specialty_id'
+        'specialty_id',
+        'micanvas'
     ];
 
     public function specialty()

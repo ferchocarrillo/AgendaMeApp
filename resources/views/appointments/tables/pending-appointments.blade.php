@@ -1,6 +1,8 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 <div class="table-responsive">
     <!-- Projects table -->
-    <table class="table align-items-center table-flush">
+    <table id="pen_Table" name="pen_Table"  class="table align-items-center table-flush" >
         <thead class="thead-light">
             <tr>
                 <th scope="col">Descrpcion</th>
@@ -13,7 +15,6 @@
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
                 <th scope="col">Tipo</th>
-
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
@@ -74,3 +75,13 @@
         </tbody>
     </table>
 </div>
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        $('#pen_Table').DataTable();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+@endsection

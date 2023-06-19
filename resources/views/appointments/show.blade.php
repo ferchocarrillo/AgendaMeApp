@@ -1,11 +1,14 @@
 @extends('layouts.panel')
-
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+@stop
 @section('content')
     <div class="card shadow">
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
                     <h3 class="mb-0">Cita N° {{ $appointment->id }}</h3>
+
                 </div>
                 <div class="col text-right">
                     <a href="{{ url('miscitas') }}" class="btn btn-sm btn-success">
@@ -16,12 +19,11 @@
         <div class="card-body">
             <ul>
                 <dd>
-                    <strong>Fecha:</strong> {{ $appointment->scheduled_date }}
+                    <strong>Fecha:</strong> {{ date('d-m-Y', strtotime($appointment->scheduled_date)) }}
                 </dd>
                 <dd>
                     <strong>Hora de atencion:</strong> {{ $appointment->scheduled_time_12 }}
                 </dd>
-
 
                 @if ($role == 'paciente' || $role == 'admin')
                     <dd>
@@ -36,7 +38,6 @@
                 <dd>
                     <strong>Especialidad:</strong> {{ $appointment->specialty->name }}
                 </dd>
-
                 <dd>
                     <strong>Tipo de consulta:</strong> {{ $appointment->type }}
                 </dd>
@@ -47,8 +48,6 @@
                     @else
                         <span class="badge badge-primary">{{ $appointment->status }}</span>
                     @endif
-
-
                 </dd>
                 <dd>
                     <strong>Sintomas:</strong> {{ $appointment->description }}
@@ -80,7 +79,119 @@
                 </div>
             @endif
 
-        </div>
+            @if ($appointment->status != 'Cancelada')
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"
+                        data-whatever="@mdo">Diligenciar consentimiento informado</button>
+                        &nbsp;&nbsp;
+                        <input type="hidden" name="id" id="id" value="{{ $appointment->id }}">
+                        <a class="btn btn-primary" href="{{ URL::to('/appointments/pdf/'. $appointment->id ) }}">Export to PDF</a>
+                </div>
+            @endif
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <form action="{{ url('signature-pad') }}" method="POST" enctype='multipart/form-data'>
+                    @csrf
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Datos del consentimiento informado</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @include('signature-pad')
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
     </div>
+
 @endsection
+
+
+@section('scripts')
+    <script src="{{ asset('js\canvas\jquery.min.js') }}"></script>
+    <script src="{{ asset('js\canvas\signature_pad.js') }}"></script>
+    <script>
+        const $canvas = document.querySelector("signature-pad"),
+            $btnDescargar = document.querySelector("btnDescargar");
+
+        var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            penColor: 'rgb(0, 0, 0)'
+        });
+        var saveButton = document.getElementById('save');
+        var limpiar = document.getElementById("clear");
+
+        // var clearButton = document.getElementById('clear');
+        var undoButton = document.getElementById('undo');
+
+
+        var canvas = document.getElementById("signature-pad");
+        var paciente = document.getElementById("paciente").value;
+
+
+        function descargar() {
+            var filename = prompt("Guardar como...", paciente);
+            if (canvas.msToBlob) { //para internet explorer
+                var blob = canvas.msToBlob();
+                window.navigator.msSaveBlob(blob, filename + ".png"); // la extensión de preferencia pon jpg o png
+            } else {
+                link = document.getElementById("download");
+                //Otros navegadores: Google chrome, Firefox etc...
+                link.href = canvas.toDataURL("image/png"); // Extensión .png ("image/png") --- Extension .jpg ("image/jpeg")
+                link.download = filename;
+            }
+        }
+
+
+        //  $btnDescargar.addEventListener("click", () => {
+        //	// Crear un elemento <a>
+        //	let enlace = document.createElement('a');
+        //	// El título
+        //	enlace.download = "Canvas como imagen.png";
+        //	// Convertir la imagen a Base64 y ponerlo en el enlace
+        //	enlace.href = canvas.toDataURL("image/png", 1);
+        //	// Hacer click en él
+        //	enlace.click();
+        //});
+
+
+        //saveButton.addEventListener('click', function (event) {
+        //  var data = signaturePad.toDataURL('image/png');
+
+
+        //console.log(data);
+        //console.log(name."png");
+        // Send data to server instead...
+        //   window.open(data);
+        // });
+
+        limpiar.addEventListener("click", function() {
+            canvas.width = canvas.width;
+        }, false);
+
+        // clearButton.addEventListener("click", () => {
+        //     signaturePad.clear();
+        // });
+        undoButton.addEventListener("click", () => {
+            const data = signaturePad.toData();
+
+            if (data) {
+                data.pop(); // remove the last dot or line
+                signaturePad.fromData(data);
+            }
+        });
+    </script>
+
+@stop
