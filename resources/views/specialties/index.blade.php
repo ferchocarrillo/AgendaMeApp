@@ -33,7 +33,7 @@
                             @foreach ( $specialties as $especialidad )
                             <tr>
                                 <th scope="row">
-                                    {{ $especialidad->name}}
+                                    {{ $especialidad->specialtyName}}
                                 </th>
                                 <td>
                                     {{ $especialidad->description}}

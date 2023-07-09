@@ -8,11 +8,12 @@ use App\Models\Appointment;
 use App\Models\CancelledAppointment;
 use App\Models\Signature;
 use App\Models\Specialty;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
-use Barryvdh\DomPDF\Facade\Pdf;
-
+use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -26,6 +27,10 @@ class AppointmentController extends Controller
                 ->where('status', 'Reservada');
             $oldAppointments = Appointment::all()
                 ->whereIn('status', ['Atendida', 'Cancelada']);
+            $agenda = Appointment::join('users', 'appointments.patient_id', '=', 'users.id')
+                ->join('specialties', 'appointments.specialty_id', 'specialties.id')
+                ->where('status', 'Confirmada')
+                ->get();
         } elseif ($role == 'doctor') {
             $confirmedAppointments = Appointment::all()
                 ->where('status', 'Confirmada')
@@ -51,13 +56,17 @@ class AppointmentController extends Controller
             'confirmedAppointments',
             'pendingAppointments',
             'oldAppointments',
-            'role'
+            'role',
+
         ));
     }
 
 
+
     public function pdf($id)
     {
+        $now = Carbon::now();
+        $now = $now->format('d-m-Y');
         $firmas = Signature::leftjoin(
             'appointments',
             'appointments.id',
@@ -66,19 +75,47 @@ class AppointmentController extends Controller
         )
             ->where('signatures.appointment_id', $id)
             ->first();
-
-        //dd($firmas);
-
-
-
-        return view('appointments.pdf', compact('firmas'));
+        return view('appointments.pdf', compact('firmas', 'now'));
     }
 
+    public function generatePDF($id)
+    {
+        $now = Carbon::now();
+        $now = $now->format('d-m-Y');
+        $firmas = Signature::leftjoin(
+            'appointments',
+            'appointments.id',
+            '=',
+            'signatures.appointment_id'
+        )
+            ->where('signatures.appointment_id', $id)
+            ->first();
+        view()->share('firmas', $firmas);
+        $pdf = PDF::loadView('appointments.pdf', $firmas);
+        return $pdf->download('generatePDF.pdf');
+    }
+
+    public function pdf2($id)
+    {
+        $now = Carbon::now();
+        $now = $now->format('d-m-Y');
+        $firmas = Signature::leftjoin(
+            'appointments',
+            'appointments.id',
+            '=',
+            'signatures.appointment_id'
+        )
+            ->where('signatures.appointment_id', $id)
+            ->first();
+        return view('appointments.pdf2', compact('firmas', 'now'));
+    }
 
     public function create(HorarioServiceInterface $horarioServiceInterface)
     {
 
         $specialties = Specialty::all();
+        $paciente = User::where('role', 'paciente')->get();
+
         $specialtyId = old('specialty_id');
         if ($specialtyId) {
             $specialty = Specialty::find($specialtyId);
@@ -100,7 +137,8 @@ class AppointmentController extends Controller
         return view('appointments.create', compact(
             'specialties',
             'doctors',
-            'intervals'
+            'intervals',
+            'paciente'
         ));
     }
 
@@ -109,6 +147,7 @@ class AppointmentController extends Controller
         HorarioServiceInterface $horarioServiceInterface
     ) {
 
+        //dd($request->all());
         $rules = [
             'scheduled_time'
             => 'required',
@@ -170,7 +209,15 @@ class AppointmentController extends Controller
                 'specialty_id',
             ]
         );
-        $data['patient_id'] = auth()->id();
+        if (auth()->user()->role == 'admin') {
+
+            $data['patient_id'] = $request->patient_id;
+        } else {
+
+            $data['patient_id'] = auth()->id();
+        }
+
+
 
         $carbonTime = Carbon::createFromFormat('g:i A', $data['scheduled_time']);
         $data['scheduled_time'] =  $carbonTime->format('H:i:s');
@@ -210,25 +257,28 @@ class AppointmentController extends Controller
         }
         return redirect('/miscitas');
     }
+
+    public function agenda(Appointment $appointment, Request $request)
+    {
+
+        $appointment = Appointment::all();
+        return redirect('appointment.agenda')->with(compact('appointment'));
+    }
+
     public function show(Appointment $appointment)
     {
         $role = auth()->user()->role;
-        return view('appointments.show', compact('appointment', 'role'));
+        $tipo = Signature::where('appointment_id', $appointment->id)->get();
+
+        return view('appointments.show', compact('appointment', 'role', 'tipo'));
     }
 
-    public function createPDF()
+    public function createPDF(Request $request)
     {
 
-        //$pdf = Signature::findOrFail($appointment->id)->get();
-
-        //dd($pdf);
         $consentimiento = Signature::all();
         view()->share('signature', $consentimiento);
-
-        //$doctor = $request->doctor;
-        //$paciente = $request->paciente;
-
-        $pdf = PDF::loadView('appointments.pdf', compact('consentimiento'));
+        $pdf = PDF::loadView('appointments.pdf', compact('consentimiento', 'now'));
         return $pdf->stream('appointments.pdf');
     }
 }

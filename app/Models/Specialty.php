@@ -11,8 +11,9 @@ class Specialty extends Model
     protected $table = ('specialties');
     protected $fillable  = [
         'id',
-        'name',
-        'description'
+        'specialtyName',
+        'description',
+        'procedureType'
     ];
 
     public function users(){

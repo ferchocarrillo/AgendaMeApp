@@ -29,13 +29,47 @@ use Illuminate\Support\Str;
             <form action="{{ url('/reservarcitas') }}" method="POST">
                 @csrf
                 <div class="form-row">
+                    @if(auth()->user()->role == 'admin')
+                    <div class="form-group col-md-4">
+                        <label for="paciente">Paciente</label>
+                        <select name="patient_id" id="patient" class="form-control">
+                            <option value="">Seleccionar paciente</option>
+                            @foreach ($paciente as $pc)
+                                <option value="{{ $pc->id }}" @if (old('paciente_id') == $pc->id) selected @endif>
+                                    {{ $pc->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="specialty">Especialidad</label>
+                        <select name="specialty_id" id="specialty" class="form-control">
+                            <option value="">Seleccionar especialidad</option>
+                            @foreach ($specialties as $especialidad)
+                                <option value="{{ $especialidad->id }}" @if (old('specialty_id') == $especialidad->id) selected @endif>
+                                    {{ $especialidad->specialtyName }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="doctor">Medico</label>
+                        <select name="doctor_id" id="doctor" class="form-control" required>
+                            @foreach ($doctors as $doctor)
+                                <option value="{{ $doctor->id }}" @if (old('doctor') == $doctor->id) selected @endif>
+                                    {{ $doctor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
+
+                    @if(auth()->user()->role == 'paciente')
                     <div class="form-group col-md-6">
                         <label for="specialty">Especialidad</label>
                         <select name="specialty_id" id="specialty" class="form-control">
                             <option value="">Seleccionar especialidad</option>
                             @foreach ($specialties as $especialidad)
                                 <option value="{{ $especialidad->id }}" @if (old('specialty_id') == $especialidad->id) selected @endif>
-                                    {{ $especialidad->name }}</option>
+                                    {{ $especialidad->specialtyName }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -48,6 +82,7 @@ use Illuminate\Support\Str;
                             @endforeach
                         </select>
                     </div>
+                    @endif
 
                 </div>
 
@@ -118,18 +153,18 @@ use Illuminate\Support\Str;
                     <label>Tipo de consulta</label>
                     <div class="custom-control custom-radio mt-3 mb-3">
                         <input type="radio" id="type1" name="type" class="custom-control-input"
-                            @if (old('type') == 'Consulta') checked @endif value="Consulta">
-                        <label class="custom-control-label" for="type1">Consulta</label>
+                            @if (old('type') == 'Valoracion') checked @endif value="Valoración">
+                        <label class="custom-control-label" for="type1">Valoración</label>
                     </div>
                     <div class="custom-control custom-radio mb-3">
                         <input type="radio" id="type2" name="type" class="custom-control-input"
-                            @if (old('type') == 'Examen') checked @endif value="Examen">
-                        <label class="custom-control-label" for="type2">Examen</label>
+                            @if (old('type') == 'Consulta') checked @endif value="Consulta">
+                        <label class="custom-control-label" for="type2">Consulta</label>
                     </div>
                     <div class="custom-control custom-radio mb-5">
                         <input type="radio" id="type3" name="type" class="custom-control-input"
-                            @if (old('type') == 'Operacion') checked @endif value="Operacion">
-                        <label class="custom-control-label" for="type3">Operación</label>
+                            @if (old('type') == 'Intervención') checked @endif value="Intervención">
+                        <label class="custom-control-label" for="type3">Intervención</label>
                     </div>
                 </div>
                 <div class="form-group">

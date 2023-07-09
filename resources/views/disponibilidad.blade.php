@@ -14,6 +14,8 @@
             <div id="container"></div>
         </div>
     </div>
+
+    <input type="text" id="fech" value="{{$date1}}">
 @endsection
 @section('scripts')
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -21,33 +23,43 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
-        Highcharts.chart('container', {
+        const dataset = {
+            "xData": [
+
+          // fecha = new Date($('#fech').val()),
+          // dias = 30 // Número de días a agregar
+
+
+            ],
+          };
+          todo = fecha.setDate(fecha.getDate() + dias);
+          console.log(todo);
+          const processedData = dataset.data.map((dataEl, i) => {
+            return [new Date(dataset.xData[i]).getTime(), dataEl] // x, y format
+          });
+
+          Highcharts.chart('container', {
             chart: {
-                type: 'line'
+              marginLeft: 40
             },
             title: {
-                text: 'Citas registradas mensualmente'
+              text: ''
             },
             xAxis: {
-                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+              type: 'datetime',
+              labels: {
+                format: '{value:%d-%m-%Y}'
+              }
             },
             yAxis: {
-                title: {
-                    text: 'Cantidad de citas'
-                }
-            },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    },
-                    enableMouseTracking: false
-                }
+              title: {
+                text: null
+              }
             },
             series: [{
-                name: 'Citas registradas ',
-                data: @json($counts)
+              data: todo
             }]
-        });
+          });
+
     </script>
 @endsection

@@ -20,7 +20,7 @@ class AppointmentFactory extends Factory
         $date = $this->faker->dateTimeBetween('-1 years', 'now');
         $schedule_date = $date->format('Y-m-d');
         $schedule_time = $date->format('H:i:s');
-        $types = ['Consulta', 'Examen', 'Operacion'];
+        $types = ['Valoracion', 'Consulta', 'intervención'];
         $doctorIds = User::doctors()->pluck('id');
         $patientIds = User::patients()->pluck('id');
         $statuses = ['Atendida', 'Cancelada'];

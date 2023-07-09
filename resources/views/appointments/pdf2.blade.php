@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>CONSENTIMIENTO PARA PROCEDIMIENTOS NO QUIRURGICOS</title>
+    <title>CONSENTIMIENTO INFORMADO PARA INTERVENCION QUIRURGICA</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
+
+        .p_1_top {
+            margin-top: 7rem;
+            margin-left: 9rem;
+            margin-right: 9rem;
+            text-align: justify;
+        }
+        .p_1_lat {
+
+           float: right;
+            margin-right: 9rem;
+            text-align: justify;
+        }
+        .hr-top {
+            color: black;
+            width: 1000px;
+            border-top: 2px solid #534444;
+            margin-left: 8rem;
+        }
+
         .titulo1 {
             text-align: center;
             font-size: 16px;
@@ -41,11 +61,10 @@
             margin-left: 48rem;
             margin-right: 9rem;
             text-align: justify;
+            margin-top: -3rem;
         }
         .p_2a {
-            margin-left: 23rem;
-            margin-right: 9rem;
-            text-align: justify;
+            margin-left: 9rem;
         }
         .p_2b {
             margin-left: 11rem;
@@ -61,42 +80,29 @@
             border-top: 2px solid #534444;
             margin-left: 8rem;
         }
-        .hr-2 {
-            color: black;
-            width: 350px;
-            border-top: 2px solid #534444;
-            margin-left: 46rem;
-            margin-top: -1rem;
-        }
+
         .hr-3 {
             color: black;
             width: 350px;
             border-top: 2px solid #534444;
             margin-left: 48rem;
-            margin-top: 3rem;
+            margin-top: -1rem;
         }
         .fir_paciente{
             filter: brightness(1.1);
             mix-blend-mode: multiply;
             position: absolute;
             margin-left: 12rem;
-            margin-top: -4rem;
+            margin-top:1rem;
             width: 20%;
         }
-        .fir_testigo{
-            filter: brightness(1.1);
-            mix-blend-mode: multiply;
-            position: absolute;
-            margin-left: 52rem;
-            margin-top: -4rem;
-            width: 20%;
-        }
+
         .fir_medico{
             filter: brightness(1.1);
             mix-blend-mode: multiply;
             position: absolute;
             margin-left: 48rem;
-            margin-top: -4rem;
+            margin-top: -1rem;
             width: 30%;
         }
         .sello{
@@ -104,100 +110,64 @@
             mix-blend-mode: multiply;
             position: absolute;
             margin-left: 48rem;
-            margin-top: -4rem;
+            margin-top: 1rem;
             width: 20%;
         }
-        .acot{
-            text-align: justify;
-            margin-left: 8rem;
-            margin-right: 8rem;
-            border: 1px solid #000;
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .firmas{
 
+            margin-top: 7rem;
+        }
+        .p_footer{
+
+            text-align: center;
         }
     </style>
-
-
 </head>
-
 <body>
-    <p class="titulo1">AUTORIZACION DE CONSENTIMIENTO PARA PROCEDIMIENTOS NO QUIRURGICOS</p>
-
-
-
-    <p class="p_1"><strong>1. </strong> Por la presente autorizo al Doctor(a) {{ $firmas->doctor }} a realizar a mi en el(la)
-        {{ $firmas->paciente }} el siguiente procedimiento
-    </p>
+    <p class="p_1_top">Dra. Olga Patricia Escobar Gil</p>
+    <p class="p_1">Dermatologa</p>
+    <p class="p_1_lat">Consentimiento informado</p>
+    <br>
+    <hr class="hr-top">
+    <p class="titulo1">CONSENTIMIENTO INFORMADO PARA INTERVENCION QUIRURGICA O PROCEDIMENTAL ESPECIAL</p>
+    <p class="p_1">Por la presente autorizo a la profesional <strong> Olga Patricia Escobar Gil </strong>y los asistentes de su elección, a realizar en mi o en el(la) paciente <strong> {{ $firmas->paciente }} </strong>
+    el(los) siguiente(s) procedimiento(s) especial:
     <p class="p_1">
         @foreach (json_decode($firmas->tratamiento) as $frm)
             <li class="listado">{{ $frm }}</li>
         @endforeach
     </p>
-
-    <div class="p_1">
-        <p>Que se llevaran a cabo el dia {{ strftime('%A %e de %B de %Y a las', strtotime($firmas->fecha)) }}
-            {{ $firmas->hora }}. </p>
-    </div>
-
-    <p class="p_1"><strong>2.</strong> El Doctor(a) {{ $firmas->doctor }} me ha explicado la naturaleza y proposito del procedimiento
-        especial, tambien me ha informado las ventajas, complicaciones, molestias, posibles alternativas y riesgos, en
-        particular los siguientes:
-        {{ $firmas->indicaciones }}
     </p>
-    <br>
-    <p class="p_1">Se me ha dado la oportunidad de hacer preguntas y todas ellas han sido contestadas
-        satisfactoriamente, asi mismo se me ha explicado que no es posible garantizar los resultados esperados con el
-        procedimiento.</p>
-    <br>
-    <p class="p_1"><strong>3.</strong> Finalmente manifiesto que he leido y comprendido perfectamente lo anterior y que todos los
-        espacios en blanco han sido completados antes de mi firma y que me encuentro en capacidad de expresar mi
-        consentimiento.
-    </p>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="row">
-        <hr class="hr-1">
-        <img class="fir_paciente" src="{{asset('storage/'.$firmas->signature )}}" />
-        <hr class="hr-2">
-        <img class="fir_testigo" src="{{asset('storage/'.$firmas->signature2 ) }}" />
-    </div>
-    <div class="row">
-        <p class="p_2">Firma del paciente o persona responsable</p>
-        <p class="p_2b">Firma del testigo</p>
-
-        <p class="p_2">C.C. {{$firmas->cedula1 }}</p>
-        <p class="p_2a">C.C. {{$firmas->cedula2 }}</p>
-    </div>
+    <p class="p_1">La doctora: <Strong>OLGA PATRICIA ESCOBAR GIL</Strong></p>
+    <p class="p_1"> han explicado la naturaleza y proposito del procedimiento especial, tambien me ha informado de los riesgos inherentes a la intevencion propuesta y en especial:</p>
+    <p class="p_1"><strong> (INFECCION, SANGRADO, DOLOR, NECESIDAD DE REINTERVENCION, CICATRIZ, HEMATOMA, MUESTRA INSUFICIENTE, MANCHA MAS CLARA O MAS OSCURA, DEHISCENCIA DE LA SUTURA)</strong></p>
     <br><br>
-
-
-    <p class="p_1">*Parentezco si firma una persona que no es el paciente</p>
-    <p class="acot"> Dejo contancia que he explicado la naturaleza, propositos, ventajas, riesgos y altenativas del procedimiento especialcitado en el numerl 1.
-    Y he contestado todas las preguntas que el paciente o persona responsable me ha formulado.</p>
-
-<p class="p_1a">Fecha: {{ strftime('%e de %B de %Y', strtotime($now))}}</p>
-
-<div class="row">
-
-    <hr class="hr-3">
-    <img class="fir_medico" src="{{asset( 'storage/'.'fr_patricia.png' ) }}" />
-    <img class="sello" src="{{asset( 'storage/'.'SELLO.png' ) }}" />
-</div>
-<div class="row">
-
-    <p class="p_3">Firma del medico y numero de registro</p>
+    <p class="p_1">Tambien se me ha informado de las alternativas de tratamiento existentes y de las ventajas del procedimiento a realizar.
+        Asi mismo, se me ha explicado que o es posible garantizar los resultados esperados con este procedimiento.
+    </p>
     <br>
+    <p class="p_1">Tambien se ma ha informado y entiendo que en el curso de la intervencion propuesto pueden presentarse acciones imprevistas que requieran procedimientos adicionales.
+        Por lo tanto, autorizo la realizacion de dichos procedimientos si el profesional tratante lo juzga conveniente.
+    </p>
     <br>
-    <br>
-
-
-</div>
-
+    <p class="p_1">Tambien se ma ha dado la oportunidad de hacer preguntas y todas ellas han sido contestadas satisfactoriamente.</p>
+    <div class="p_1">Manifiesto que he recibido y comprendido toda la informacion respecto al orocedimiento propuesto y todos los espacios en blanco han sido llenados antes de mi firma y que me encuentro en pleno uso de mis facultades para dar mi consentimiento </div>
+    <div class="row firmas">
+        <hr class="hr-1 firmas">
+        <hr class="hr-3">
+        <img class="fir_paciente" src="{{asset('storage/'.$firmas->signature )}}" />
+        <img class="sello" src="{{asset( 'storage/'.'SELLO.png' ) }}" />
+        <img class="fir_medico" src="{{asset( 'storage/'.'fr_patricia.png' ) }}" />
+    </div>
+    <div class="row"></div>
+        <p class="p_2">Firma del paciente o persona responsable</p>
+        <p class="p_3">Firma del medico y numero de registro</p>
+    </div>
+    <div class="row">
+        <p class="p_2a">C.C. {{$firmas->cedula1 }}</p>
+    </div>
+    <p class="p_footer"> Carrera 16 # 82 - 29 consultorio 309 edificiocntro profesional del country</p>
+    <p class="p_footer"> Telefonos: 6164212 - 6164248</p>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -210,5 +180,4 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 </body>
-
 </html>

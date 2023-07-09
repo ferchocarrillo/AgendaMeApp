@@ -16,12 +16,30 @@
         <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
         <!-- CSS Files -->
         <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
         @yield('styles')
         <style>
 
             canvas{
                 border: 1px solid black;
             }
+            .selectpicker{
+
+                color: black !important;
+            }
+            .bootstrap-select .dropdown-menu.inner {
+                position: static;
+                float: none;
+                border: 0;
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+                color: black !important;
+                background: rgb(58, 104, 131);
+            }
+
         </style>
     </head>
 
@@ -167,9 +185,13 @@
         <!--   Optional JS   -->
         <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
         <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
+<!--selectpicker -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
         @yield('scripts')
         <!--   Argon JS   -->
-        <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
+
         <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
         <script>
             window.TrackJS &&

@@ -14,12 +14,21 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link " href="{{ url('/pacientes') }}">
+    <a class="nav-link" href="{{ url('/pacientes') }}">
         <i class="fas fa-bed text-warning"></i> Pacientes
     </a>
 </li>
-<li class="nav-item">
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-clock text-info"></i>Citas Medicas</a>
+    <div class="dropdown-menu">
     <a class="nav-link " href="/miscitas">
-        <i class="fas fa-clock text-info"></i> Citas Medicas
+        Estatus de Citas Medicas
     </a>
+    <a class="nav-link " href="/reservarcitas/create">
+        Reservar Nuevas Citas Medicas
+    </a>
+    <a class="nav-link " href="/disponibilidad">
+        Ver Disponibilidad
+    </a>
+</div>
 </li>

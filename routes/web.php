@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SignaturePadController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'appointments/pdf/{id}',
         [AppointmentController::class, 'pdf']
     )->name('appointments.pdf');
+
+    Route::get('generate-pdf', [AppointmentController::class, 'generatePDF']);
+
+    Route::get(
+        'appointments/pdf2/{id}',
+        [AppointmentController::class, 'pdf2']
+    )->name('appointments.pdf2');
+
+    Route::post('/order', [App\Http\Controllers\OrderController::class, 'store'])
+    ->name('order');
 
 
     //Rutas spacielties
@@ -106,11 +117,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
             App\Http\Controllers\admin\ChartController::class, 'doctorsJson'
         ]
     );
-
+    Route::get(
+        '/disponibilidad',
+        [
+            App\Http\Controllers\DisponibilidadController::class,
+            'disponibilidad'
+        ]
+    );
     //rutas pdf
 
     Route::get('signature-pad', [SignaturePadController::class, 'index']);
-    Route::post('signature-pad', [SignaturePadController::class, 'save'])->name('signpad.save');
+    Route::post('signature-pad', [SignaturePadController::class, 'save'])
+        ->name('signpad.save');
 
     //Route::get('/tcpdf', [\App\Http\Controllers\TCPDFController::class, 'downloadPdf']);
 
@@ -193,6 +211,14 @@ Route::middleware(
             App\Http\Controllers\AppointmentController::class, 'formCancel'
         ]
     );
+    Route::get(
+        '/miscitas/agenda',
+        [
+            App\Http\Controllers\AppointmentController::class, 'agenda'
+        ]
+    );
+
+
 
     //json
     Route::get(

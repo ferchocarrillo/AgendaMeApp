@@ -1,4 +1,5 @@
 @extends('layouts.panel')
+@section('title', ' | Mis citas')
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 @stop
@@ -36,7 +37,7 @@
                     </dd>
                 @endif
                 <dd>
-                    <strong>Especialidad:</strong> {{ $appointment->specialty->name }}
+                    <strong>Especialidad:</strong> {{ $appointment->specialty->specialtyName }}
                 </dd>
                 <dd>
                     <strong>Tipo de consulta:</strong> {{ $appointment->type }}
@@ -78,42 +79,49 @@
                     @endif
                 </div>
             @endif
-
-            @if ($appointment->status != 'Cancelada')
+            @if ($appointment->status != 'Cancelada' && $appointment->consentimiento != 'Firmado')
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"
                         data-whatever="@mdo">Diligenciar consentimiento informado</button>
-                        &nbsp;&nbsp;
-                        <input type="hidden" name="id" id="id" value="{{ $appointment->id }}">
-                        <a class="btn btn-primary" href="{{ URL::to('/appointments/pdf/'. $appointment->id ) }}">Export to PDF</a>
-                </div>
+                    &nbsp;&nbsp;
             @endif
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <form action="{{ url('signature-pad') }}" method="POST" enctype='multipart/form-data'>
-                    @csrf
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Datos del consentimiento informado</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                @include('signature-pad')
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            @if ($appointment->consentimiento == 'Firmado')
+                @if ($tipo[0]['procedureType'] == 'quirurgico')
+                    <input type="hidden" name="id" id="id" value="{{ $appointment->id }}">
+                    <a class="btn btn-primary" href="{{ URL::to('/appointments/pdf/' . $appointment->id) }}">ver PDF</a>
+                @elseif ($tipo[0]['procedureType'] == 'NoQuirurgico')
+                    <a class="btn btn-primary" href="{{ URL::to('/appointments/pdf2/' . $appointment->id) }}">ver PDF</a>
+                @endif
+            @endif
+        </div>
 
-                            </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <form action="{{ url('signature-pad') }}" method="POST" enctype='multipart/form-data'>
+                @csrf
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Datos del consentimiento informado</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @include('signature-pad')
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
 
 
-            </div>
         </div>
+    </div>
     </div>
 
 @endsection
@@ -154,36 +162,10 @@
             }
         }
 
-
-        //  $btnDescargar.addEventListener("click", () => {
-        //	// Crear un elemento <a>
-        //	let enlace = document.createElement('a');
-        //	// El título
-        //	enlace.download = "Canvas como imagen.png";
-        //	// Convertir la imagen a Base64 y ponerlo en el enlace
-        //	enlace.href = canvas.toDataURL("image/png", 1);
-        //	// Hacer click en él
-        //	enlace.click();
-        //});
-
-
-        //saveButton.addEventListener('click', function (event) {
-        //  var data = signaturePad.toDataURL('image/png');
-
-
-        //console.log(data);
-        //console.log(name."png");
-        // Send data to server instead...
-        //   window.open(data);
-        // });
-
         limpiar.addEventListener("click", function() {
             canvas.width = canvas.width;
         }, false);
 
-        // clearButton.addEventListener("click", () => {
-        //     signaturePad.clear();
-        // });
         undoButton.addEventListener("click", () => {
             const data = signaturePad.toData();
 

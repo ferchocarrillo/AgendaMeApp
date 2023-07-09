@@ -26,7 +26,7 @@
                         {{ $cita->description }}
                     </th>
                     <td>
-                        {{ $cita->specialty->name }}
+                        {{ $cita->specialty->specialtyName }}
                     </td>
                     @if ($role == 'paciente')
                         <td>
