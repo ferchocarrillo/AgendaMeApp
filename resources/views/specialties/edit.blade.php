@@ -30,11 +30,21 @@
 
                 <div class="form-group">
                     <label for="name">Nombre de la especialidad</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $specialty->name) }}" class="form-control" required>
+                    <input type="text" name="specialtyName" id="specialtyName" value="{{ old('specialtyName', $specialty->specialtyName) }}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Descripción</label>
                     <input type="text" name="description" id="description" value="{{ old('description', $specialty->description) }}" class="form-control" >
+                </div>
+
+                <div class="form-group">
+                    <label for="procedureType">Tipo de procedimiento</label>
+                    <input list="procedureType" type="text" name="procedureType"  class="form-control"   placeholder="" required>
+                    <datalist name="procedureType" id="procedureType" >
+                        <option value="{{old('procedureType', $specialty->procedureType)}}"></option>
+                        <option value="Quirurgico">Quirurgico</option>
+                        <option value="No Quirurgico">No Quirurgico</option>
+                    </datalist>
                 </div>
 
                 <button type="submit" class="btn btn-sm btn-primary">Guardar especialidad</button>

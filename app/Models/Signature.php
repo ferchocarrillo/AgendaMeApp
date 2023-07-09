@@ -16,11 +16,15 @@ class Signature extends Model
         'id',
         'doctor',
         'paciente',
+        'procedureType',
         'tratamiento',
         'fecha',
+        'hora',
         'indicaciones',
         'signature',
+        'cedula1',
         'signature2',
+        'cedula2',
         'appointment_id'
     ];
 

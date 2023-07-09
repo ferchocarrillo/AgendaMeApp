@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specialties', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('specialtyName');
-            $table->string('description')->nullable();
-            $table->string('procedureType');
-            $table->timestamps();
+        Schema::table('appointments', function (Blueprint $table) {
+            $table->string('consentimiento')->default('Pendiente');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialties');
+        Schema::table('appointments', function (Blueprint $table) {
+            $table->dropColumn('consentimiento');
+        });
     }
 };

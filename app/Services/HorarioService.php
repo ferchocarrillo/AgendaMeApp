@@ -75,7 +75,7 @@ class HorarioService implements HorarioServiceInterface
 
             $available = $this->isAvailableInterval($date, $doctorId, $start);
 
-            $start->addMinutes(30);
+            $start->addMinutes(15);
             $intervalo['end'] = $start->format('g:i A');
             if ($available) {
                 $intervalos[] = $intervalo;

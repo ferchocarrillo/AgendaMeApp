@@ -1,15 +1,27 @@
 <?php
     use Illuminate\Support\Str;
-
 ?>
-
 @extends('layouts.panel')
-
 @section('styles')
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
+   /// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css">
 
+    <style>
+   //    .selector .opcion {
+   //        background: rgb(92, 88, 88);
+   //        color: black !important;
+   //    }
+    //    select.selectpicker{
+    //        display:block !important;
+    //        background: rgb(92, 88, 88);
+    //        color: red;
+    //    }
+//
+       // select.selectpicker{ }
+//        .bootstrap-select{width:220px;vertical-align:middle}.bootstrap-select>.dropdown-toggle{position:relative;width:100%;text-align:right;white-space:nowrap;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between}
+
+    </style>
+    @endsection
 @section('content')
     <div class="card shadow">
         <div class="card-header border-0">
@@ -42,10 +54,10 @@
                 </div>
                 <div class="form-group">
                     <label for="specialties">Especialidades</label>
-                    <select name="specialties[]" id="specialties" class="form-control selectpicker"
+                    <select  name="specialties[]" id="specialties" class="form-control selectpicker selector "
                     data-style="btn-primary" title="Seleccionar especialidades" multiple required>
                         @foreach ( $specialties as $especialidad )
-                        <option value="{{ $especialidad->id }}">{{ $especialidad->name }}</option>
+                        <option  value="{{ $especialidad->id }}">{{ $especialidad->specialtyName }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -79,10 +91,12 @@
 @endsection
 @section('scripts')
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+   // <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
 <script>
     $(document).ready(()=>{});
     $('#specialties').selectpicker('val', @json($specialty_ids) );
+
+
 </script>
     @endsection

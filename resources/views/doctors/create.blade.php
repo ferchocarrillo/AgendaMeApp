@@ -5,8 +5,23 @@ use Illuminate\Support\Str;
 
 @section('styles')
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css">
+
+<style>
+    .selector .opcion {
+        background: rgb(92, 88, 88);
+        color: black !important;
+    }
+
+
+
+
+</style>
+
+
+    @endsection
 @section('content')
     <div class="card shadow">
         <div class="card-header border-0">
@@ -33,16 +48,16 @@ use Illuminate\Support\Str;
             <form action="{{ url('/medicos') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="name">Nombre del médico</label>
+                    <label for="name" >Nombre del médico</label>
                     <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"
                         required>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" >
                     <label for="specialties">Especialidades</label>
-                    <select name="specialties[]" id="specialties" class="form-control selectpicker"
-                    data-style="btn-primary" title="Seleccionar especialidades" multiple required>
+                    <select   name="specialties[]" id="specialties" class="selectpicker form-control selector" data-style="btn-primary" title="Seleccionar especialidades" multiple data-actions-box="true" required>
                         @foreach ( $specialties as $especialidad )
-                        <option value="{{ $especialidad->id }}">{{ $especialidad->name }}</option>
+                        <option class="opcion" value="{{ $especialidad->id }}">{{ $especialidad->specialtyName }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -15,11 +15,15 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('doctor');
             $table->string('paciente');
+            $table->string('procedureType');
             $table->string('tratamiento');
             $table->date('fecha');
-            $table->string('indicaciones')->nullable();
-            $table->string('signature')->nullable();
+            $table->time('hora');
+            $table->string('indicaciones');
+            $table->string('signature');
+            $table->bigInteger('cedula1');
             $table->string('signature2')->nullable();
+            $table->bigInteger('cedula2')->nullable();
             $table->unsignedBigInteger('appointment_id');
             $table->foreign('appointment_id')->references('id')
             ->on('appointments')

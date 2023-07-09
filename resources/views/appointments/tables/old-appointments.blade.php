@@ -15,7 +15,7 @@
             @foreach ( $oldAppointments as $cita )
             <tr>
                 <td>
-                    {{ $cita->specialty->name}}
+                    {{ $cita->specialty->specialtyName }}
                 </td>
                 <td>
                     {{ $cita->scheduled_date}}

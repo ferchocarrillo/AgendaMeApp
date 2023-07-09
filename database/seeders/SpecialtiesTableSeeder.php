@@ -15,6 +15,7 @@ class SpecialtiesTableSeeder extends Seeder
     public function run(): void
     {
         $specialties = [
+
             'Cavitacion',
             'Carboxiteriapia',
             'Dermapen',
@@ -26,7 +27,7 @@ class SpecialtiesTableSeeder extends Seeder
 
             $specialty = Specialty::create(
                 [
-                    'name' => $specialtyName
+                    'specialtyName' => $specialtyName
                 ]
             );
             $specialty->users()->saveMany(

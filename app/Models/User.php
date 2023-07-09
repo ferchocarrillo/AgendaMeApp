@@ -81,6 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Appointment::class, 'patient_id');
     }
-
+    public function routeNotificationForWhatsApp()
+    {
+      return $this->phone_number;
+    }
 
 }

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specialties', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('specialtyName');
-            $table->string('description')->nullable();
-            $table->string('procedureType');
+            $table->string('name');
+            $table->integer('amount');
             $table->timestamps();
-        });
+          });
     }
 
     /**
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialties');
+        Schema::dropIfExists('orders');
     }
 };
